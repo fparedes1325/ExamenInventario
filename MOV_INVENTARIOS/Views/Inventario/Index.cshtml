@@ -1,0 +1,91 @@
+﻿@model Mov_Inventario_filtro_ViewModel
+@{
+    ViewData["Title"] = "Listado de Inventario";
+    var errorMessage = TempData["errorMessage"]?.ToString();
+    var successMessage = TempData["successMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]?.ToString()</h3>
+<br />
+@if (!string.IsNullOrWhiteSpace(@successMessage))
+{
+    <div class="alert alert-success">
+        <b>Success : </b>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <b>Error :</b>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+} 
+
+<form method="post" action="Index" class="mt-3" autocomplete="off">
+    <a href="/Inventario/Create" class="Button">Nuevo Inventario</a>
+    <button asp-action="Index" asp-controller="Inventario" class="btn btn-primary mb-3">Buscar</button>
+    <div class="mb-4">
+        <label class="form-label">Fecha Inicio</label>
+        <input type="date" class="form-control" asp-for="FechaI" />
+        <span asp-validation-for="FechaI" class="text-danger"></span>
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Fecha Fin</label>
+        <input type="date" class="form-control" asp-for="FechaF" />
+        <span asp-validation-for="FechaF" class="text-danger"></span>
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Tipo Movimiento</label>
+        <input type="text" class="form-control" asp-for="Tipo" />
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Nro Documento</label>
+        <input type="text" class="form-control" asp-for="Nro" />
+        <span asp-validation-for="Nro" class="text-danger"></span>
+    </div>
+    <table class="table table-responsive table-bordered table-hover">
+        <thead>
+            <tr class="table-active">
+                <th>COD_CIA</th>
+                <th>COMPANIA_VENTA_3</th>
+                <th>ALMACEN_VENTA</th>
+                <th>TIPO_MOVIMIENTO</th>
+                <th>TIPO_DOCUMENTO</th>
+                <th>NRO_DOCUMENTO</th>
+                <th>COD_ITEM_2</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Listado != null && Model.Listado.Any())
+            {
+                @foreach (var _Inventario in Model.Listado)
+                {
+                    <tr>
+                        <td>@_Inventario.COD_CIA</td>
+                        <td>@_Inventario.COMPANIA_VENTA_3</td>
+                        <td>@_Inventario.ALMACEN_VENTA</td>
+                        <td>@_Inventario.TIPO_MOVIMIENTO</td>
+                        <td>@_Inventario.TIPO_DOCUMENTO</td>
+                        <td>@_Inventario.NRO_DOCUMENTO</td>
+                        <td>@_Inventario.COD_ITEM_2</td>   
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">
+                        <div>
+                           No hay datos!
+                        </div>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</form>
